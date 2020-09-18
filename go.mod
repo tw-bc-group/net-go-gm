@@ -1,4 +1,4 @@
-module github.com/Hyperledger-TWGC/net-go-gm/http
+module github.com/Hyperledger-TWGC/net-http-go-gm/http
 
 go 1.14
 
