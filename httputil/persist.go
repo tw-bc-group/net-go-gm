@@ -9,7 +9,8 @@ import (
 	"errors"
 	"io"
 	"net"
-	"net/http"
+	//"net/http"
+	"github.com/Hyperledger-TWGC/net-go-gm/http"
 	"net/textproto"
 	"sync"
 )

@@ -9,13 +9,15 @@ package cgi
 
 import (
 	"bufio"
-	"crypto/tls"
+	//"crypto/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"errors"
 	"fmt"
 	"io"
 	"io/ioutil"
 	"net"
-	"net/http"
+	//"net/http"
+	"github.com/Hyperledger-TWGC/net-go-gm/http"
 	"net/url"
 	"os"
 	"strconv"

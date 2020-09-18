@@ -7,8 +7,9 @@
 package httputil
 
 import (
+	"github.com/Hyperledger-TWGC/net-go-gm/http/internal"
 	"io"
-	"net/http/internal"
+	//"net/http/internal"
 )
 
 // NewChunkedReader returns a new chunkedReader that translates the data read from r

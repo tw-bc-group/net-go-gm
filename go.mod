@@ -1,5 +1,8 @@
-module Hyperledger-TWGC/net-go-gm2/http
+module github.com/Hyperledger-TWGC/net-go-gm/http
 
 go 1.14
 
-require golang.org/x/net v0.0.0-20200904194848-62affa334b73
+require (
+	github.com/Hyperledger-TWGC/ccs-gm v0.0.0-20200910170226-f53e55509deb
+	golang.org/x/net v0.0.0-20200904194848-62affa334b73
+)

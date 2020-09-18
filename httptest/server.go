@@ -7,14 +7,18 @@
 package httptest
 
 import (
-	"crypto/tls"
-	"crypto/x509"
+	//"crypto/tls"
+	//"crypto/x509"
+	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/ccs-gm/x509"
 	"flag"
 	"fmt"
 	"log"
 	"net"
-	"net/http"
-	"net/http/internal"
+	//"net/http"
+	//"net/http/internal"
+	"github.com/Hyperledger-TWGC/net-go-gm/http"
+	"github.com/Hyperledger-TWGC/net-go-gm/http/internal"
 	"os"
 	"strings"
 	"sync"
