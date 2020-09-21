@@ -10,6 +10,8 @@ import (
 	"bufio"
 	"bytes"
 	"context"
+	"github.com/Hyperledger-TWGC/ccs-gm/sm2"
+
 	//"crypto/tls"
 	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"errors"
@@ -3009,7 +3011,73 @@ func (srv *Server) ServeTLS(l net.Listener, certFile, keyFile string) error {
 	if !configHasCert || certFile != "" || keyFile != "" {
 		var err error
 		config.Certificates = make([]tls.Certificate, 1)
-		config.Certificates[0], err = tls.LoadX509KeyPair(certFile, keyFile)
+		cert, err := tls.LoadX509KeyPair(certFile, keyFile)
+		if err != nil {
+			return err
+		}
+		_, ok := cert.PrivateKey.(*sm2.PrivateKey)
+		if ok {
+			fmt.Println("======sm2 cert key ======")
+			//config{Certificates: []tls.Certificate{cert}, GMSupport: &tls.GMSupport{}}
+			config.Certificates[0] = cert
+			config.GMSupport = &tls.GMSupport{}
+		} else {
+			config.Certificates[0] = cert
+		}
+		//config.Certificates[0], err = tls.LoadX509KeyPair(certFile, keyFile)
+		if err != nil {
+			return err
+		}
+	}
+
+	tlsListener := tls.NewListener(l, config)
+	return srv.Serve(tlsListener)
+}
+
+//suport gm tls double cert
+func (srv *Server) ServeTLSWithDoubleCert(l net.Listener, signCertFile, signKeyFile, cipherCertFile, cipherKeyFile string) error {
+	// Setup HTTP/2 before srv.Serve, to initialize srv.TLSConfig
+	// before we clone it and create the TLS Listener.
+	if err := srv.setupHTTP2_ServeTLS(); err != nil {
+		return err
+	}
+
+	config := cloneTLSConfig(srv.TLSConfig)
+	if !strSliceContains(config.NextProtos, "http/1.1") {
+		config.NextProtos = append(config.NextProtos, "http/1.1")
+	}
+
+	configHasCert := len(config.Certificates) > 0 || config.GetCertificate != nil
+	if !configHasCert || signCertFile != "" || signKeyFile != "" {
+		var err error
+		config.Certificates = make([]tls.Certificate, 2)
+		//cert, err := tls.LoadX509KeyPair(certFile, keyFile)
+		//if err != nil {
+		//	return err
+		//}
+		signCert, err := tls.LoadX509KeyPair(signCertFile, signKeyFile)
+		if err != nil {
+			return err
+		}
+
+		cipherCert, err := tls.LoadX509KeyPair(cipherCertFile, cipherKeyFile)
+		if err != nil {
+			return  err
+		}
+
+		_, ok := signCert.PrivateKey.(*sm2.PrivateKey)
+		if ok {
+			fmt.Println("======sm2 double cert key ======")
+			//config{Certificates: []tls.Certificate{cert}, GMSupport: &tls.GMSupport{}}
+			//tls.Config{Certificates: []tls.Certificate{signCert, cipherCert}, GMSupport: &tls.GMSupport{}}
+			config.Certificates[0] = signCert
+			config.Certificates[1] = cipherCert
+			config.GMSupport = &tls.GMSupport{}
+		} else {
+			config.Certificates[0] = signCert
+			config.Certificates[1] = cipherCert
+		}
+		//config.Certificates[0], err = tls.LoadX509KeyPair(certFile, keyFile)
 		if err != nil {
 			return err
 		}
@@ -3140,6 +3208,12 @@ func ListenAndServeTLS(addr, certFile, keyFile string, handler Handler) error {
 	return server.ListenAndServeTLS(certFile, keyFile)
 }
 
+//suport GM TLS Double Cert
+func ListenAndServeTLSWithDoubleCert(addr, signCertFile, signKeyFile, cipherCertFile, cipherKeyFile string, handler Handler) error {
+	server := &Server{Addr: addr, Handler: handler}
+	return server.ListenAndServeTLSWithDoubleCert(signCertFile, signKeyFile, cipherCertFile, cipherKeyFile)
+}
+
 // ListenAndServeTLS listens on the TCP network address srv.Addr and
 // then calls ServeTLS to handle requests on incoming TLS connections.
 // Accepted connections are configured to enable TCP keep-alives.
@@ -3172,6 +3246,25 @@ func (srv *Server) ListenAndServeTLS(certFile, keyFile string) error {
 	defer ln.Close()
 
 	return srv.ServeTLS(ln, certFile, keyFile)
+}
+
+func (srv *Server) ListenAndServeTLSWithDoubleCert(signCertFile, signKeyFile, cipherCertFile, cipherKeyFile string) error {
+	if srv.shuttingDown() {
+		return ErrServerClosed
+	}
+	addr := srv.Addr
+	if addr == "" {
+		addr = ":https"
+	}
+
+	ln, err := net.Listen("tcp", addr)
+	if err != nil {
+		return err
+	}
+
+	defer ln.Close()
+
+	return srv.ServeTLSWithDoubleCert(ln, signCertFile, signKeyFile, cipherCertFile, cipherKeyFile)
 }
 
 // setupHTTP2_ServeTLS conditionally configures HTTP/2 on
