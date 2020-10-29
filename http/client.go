@@ -12,7 +12,6 @@ package http
 import (
 	"context"
 	//"crypto/tls"
-	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"encoding/base64"
 	"errors"
 	"fmt"
@@ -25,6 +24,8 @@ import (
 	"strings"
 	"sync"
 	"time"
+
+	tls "github.com/Hyperledger-TWGC/tjfoc-gm/gmtls"
 )
 
 // A Client is an HTTP client. Its zero value (DefaultClient) is a

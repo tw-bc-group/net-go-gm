@@ -24,8 +24,9 @@ import (
 	"compress/gzip"
 	"context"
 	"crypto/rand"
+
 	//"crypto/tls"
-	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+
 	"encoding/binary"
 	"errors"
 	"fmt"
@@ -35,8 +36,8 @@ import (
 	"math"
 	mathrand "math/rand"
 	"net"
+
 	//"net/http/httptrace"
-	"github.com/Hyperledger-TWGC/net-go-gm/http/httptrace"
 	"net/textproto"
 	"net/url"
 	"os"
@@ -48,6 +49,9 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/tw-bc-group/net-go-gm/http/httptrace"
+	tls "github.com/Hyperledger-TWGC/tjfoc-gm/gmtls"
 
 	"golang.org/x/net/http/httpguts"
 	"golang.org/x/net/http2/hpack"

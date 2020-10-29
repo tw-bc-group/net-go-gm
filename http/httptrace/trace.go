@@ -9,12 +9,13 @@ package httptrace
 import (
 	"context"
 	//"crypto/tls"
-	"github.com/Hyperledger-TWGC/ccs-gm/tls"
-	"github.com/Hyperledger-TWGC/net-go-gm/http/internal/nettrace" //copy from go src internal
 	"net"
 	"net/textproto"
 	"reflect"
 	"time"
+
+	tls "github.com/Hyperledger-TWGC/tjfoc-gm/gmtls"
+	"github.com/tw-bc-group/net-go-gm/http/internal/nettrace" //copy from go src internal
 )
 
 // unique type to prevent assignment.

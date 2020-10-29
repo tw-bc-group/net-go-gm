@@ -9,8 +9,8 @@ package http
 import (
 	"bufio"
 	"bytes"
+
 	//"crypto/tls"
-	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"errors"
 	"fmt"
 	"io"
@@ -18,6 +18,8 @@ import (
 	"net/url"
 	"strconv"
 	"strings"
+
+	tls "github.com/Hyperledger-TWGC/tjfoc-gm/gmtls"
 
 	"golang.org/x/net/http/httpguts"
 )

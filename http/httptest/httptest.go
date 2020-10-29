@@ -9,11 +9,11 @@ import (
 	"bufio"
 	"bytes"
 	//"crypto/tls"
-	"github.com/Hyperledger-TWGC/ccs-gm/tls"
+	"github.com/Hyperledger-TWGC/tjfoc-gm/gmtls"
 	"io"
 	"io/ioutil"
 	//"net/http"
-	"github.com/Hyperledger-TWGC/net-go-gm/http"
+	"github.com/tw-bc-group/net-go-gm/http"
 	"strings"
 )
 

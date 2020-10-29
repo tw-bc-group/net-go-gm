@@ -14,15 +14,15 @@ import (
 	"compress/gzip"
 	"container/list"
 	"context"
+
 	//"crypto/tls"
-	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"errors"
 	"fmt"
 	"io"
 	"log"
 	"net"
+
 	//"net/http/httptrace"
-	"github.com/Hyperledger-TWGC/net-go-gm/http/httptrace"
 	"net/textproto"
 	"net/url"
 	"os"
@@ -32,6 +32,8 @@ import (
 	"sync/atomic"
 	"time"
 
+	tls "github.com/Hyperledger-TWGC/tjfoc-gm/gmtls"
+	"github.com/tw-bc-group/net-go-gm/http/httptrace"
 	"golang.org/x/net/http/httpguts"
 	"golang.org/x/net/http/httpproxy"
 )

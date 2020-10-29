@@ -10,10 +10,10 @@ import (
 	"bufio"
 	"bytes"
 	"context"
-	"github.com/Hyperledger-TWGC/ccs-gm/sm2"
+
+	"github.com/Hyperledger-TWGC/tjfoc-gm/sm2"
 
 	//"crypto/tls"
-	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"errors"
 	"fmt"
 	"io"
@@ -32,6 +32,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	tls "github.com/Hyperledger-TWGC/tjfoc-gm/gmtls"
 
 	"golang.org/x/net/http/httpguts"
 )
@@ -1829,7 +1831,7 @@ func (c *conn) serve(ctx context.Context) {
 			//	return
 			//}
 
-			if re, ok := err.(tls.RecordHeaderError); ok  && tlsRecordHeaderLooksLikeHTTP(re.RecordHeader) {
+			if re, ok := err.(tls.RecordHeaderError); ok && tlsRecordHeaderLooksLikeHTTP(re.RecordHeader) {
 				//io.WriteString(re.Conn, "HTTP/1.0 400 Bad Request\r\n\r\nClient sent an HTTP request to an HTTPS server.\n")
 				//re.Conn.Close()
 				fmt.Println("====Client sent an HTTP request to an HTTPS server")
@@ -3062,7 +3064,7 @@ func (srv *Server) ServeTLSWithDoubleCert(l net.Listener, signCertFile, signKeyF
 
 		cipherCert, err := tls.LoadX509KeyPair(cipherCertFile, cipherKeyFile)
 		if err != nil {
-			return  err
+			return err
 		}
 
 		_, ok := signCert.PrivateKey.(*sm2.PrivateKey)

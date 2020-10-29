@@ -10,8 +10,8 @@ import (
 	"bufio"
 	"bytes"
 	"context"
+
 	//"crypto/tls"
-	"github.com/Hyperledger-TWGC/ccs-gm/tls"
 	"encoding/base64"
 	"errors"
 	"fmt"
@@ -20,13 +20,15 @@ import (
 	"mime"
 	"mime/multipart"
 	"net"
-	"github.com/Hyperledger-TWGC/net-go-gm/http/httptrace"
 	"net/textproto"
 	"net/url"
 	urlpkg "net/url"
 	"strconv"
 	"strings"
 	"sync"
+
+	tls "github.com/Hyperledger-TWGC/tjfoc-gm/gmtls"
+	"github.com/tw-bc-group/net-go-gm/http/httptrace"
 
 	"golang.org/x/net/idna"
 )

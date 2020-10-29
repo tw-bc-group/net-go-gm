@@ -1,8 +1,12 @@
-module github.com/Hyperledger-TWGC/net-go-gm
+module github.com/tw-bc-group/net-go-gm
 
 go 1.14
 
 require (
-	github.com/Hyperledger-TWGC/ccs-gm v0.0.0-20200910170226-f53e55509deb
+	github.com/Hyperledger-TWGC/tjfoc-gm v0.0.0-20201027032413-de75d571dd85
 	golang.org/x/net v0.0.0-20200904194848-62affa334b73
+)
+
+replace (
+	github.com/Hyperledger-TWGC/tjfoc-gm v0.0.0-20201027032413-de75d571dd85 => ../tjfoc-gm
 )
